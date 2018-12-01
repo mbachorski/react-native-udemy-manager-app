@@ -1,13 +1,17 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {emailChanged} from "../actions";
+import {emailChanged, passwordChanged} from "../actions";
 import {Card, CardSection, Input, Button} from "./common";
 import {combineReducers} from "redux";
 
 class LoginForm extends Component {
 
-    onEmailChange(text) {
+    onEmailChanged(text) {
         this.props.emailChanged(text)
+    }
+
+    onPasswordChanged(text) {
+        this.props.passwordChanged(text)
     }
 
     render() {
@@ -17,7 +21,7 @@ class LoginForm extends Component {
                     <Input
                         label="Email"
                         placeholder="email@email.com"
-                        onChangeText={this.onEmailChange.bind(this)}
+                        onChangeText={this.onEmailChanged.bind(this)}
                         value={this.props.email}
                     />
                 </CardSection>
@@ -27,6 +31,7 @@ class LoginForm extends Component {
                         secureTextEntry
                         label="password"
                         placeholder="password"
+                        onChangeText={this.onPasswordChanged.bind(this)}
                     />
                 </CardSection>
 
@@ -43,9 +48,10 @@ class LoginForm extends Component {
 const mapStateToProps = state => {
     return {
         // state comes from combineReducers 'auth'
-        email: state.auth.email
+        email: state.auth.email,
+        password: state.auth.password
     };
 };
 
 
-export default connect(mapStateToProps, {emailChanged})(LoginForm);
+export default connect(mapStateToProps, {emailChanged, passwordChanged})(LoginForm);
