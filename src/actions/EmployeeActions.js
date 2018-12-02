@@ -1,5 +1,6 @@
 import {
-    EMPLOYEE_UPDATE
+    EMPLOYEE_UPDATE,
+    EMPLOYEE_CREATE
 } from "./types";
 import firebase from '@firebase/app';
 import '@firebase/database';
@@ -18,15 +19,12 @@ export const employeeCreate = ({name, phone, shift}) => {
     const {currentUser} = firebase.auth();
 
     // breaking the rules -> using redux thunk but not returning a function (dispatch). We just want to navigate nothing more
-    return () => {
+    return (dispatch) => {
         firebase.database().ref(`/users/${currentUser.uid}/employees`)
             .push({name, phone, shift})
-            .then(() => Actions.employeeList());
-            // could be .then(() => Actions.employeeList({type: 'reset'})); instead of popping scene
+            .then(() => {
+                dispatch({type: EMPLOYEE_CREATE});
+                Actions.employeeList({type: 'reset'});
+            });
     }
-
-    // return {
-    //     type: EMPLOYEE_UPDATE,
-    //     payload: {prop, value}
-    // }
 };
