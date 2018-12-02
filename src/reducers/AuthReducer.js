@@ -1,8 +1,15 @@
-import {EMAIL_CHANGED, PASSWORD_CHANGED} from "../actions/types";
+import {
+    EMAIL_CHANGED,
+    LOGIN_USER_SUCCESS,
+    PASSWORD_CHANGED,
+    LOGIN_USER_FAIL
+} from "../actions/types";
 
 const INITIAL_STATE = {
     email: '',
-    password: ''
+    password: '',
+    user: null,
+    error: ''
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -14,6 +21,12 @@ export default (state = INITIAL_STATE, action) => {
         case PASSWORD_CHANGED:
             console.log('AuthReducer.js PASSWORD_CHANGED')
             return {...state, password: action.payload};
+        case LOGIN_USER_SUCCESS:
+            console.log('AuthReducer.js LOGIN_USER_SUCCESS')
+            return {...state, user: action.payload, error: ''};
+        case LOGIN_USER_FAIL:
+            console.log('AuthReducer.js LOGIN_USER_FAIL')
+            return {...state, error: 'Authentication Failed'}; // optionally password: ''
         default:
             return state
     }
