@@ -2,7 +2,7 @@ import {
     EMPLOYEE_UPDATE,
     EMPLOYEE_CREATE,
     EMPLOYEES_FETCH_SUCCESS,
-    EMPLOYEE_SAVE_SUCCESS
+    EMPLOYEE_SAVE_SUCCESS, EMPLOYEE_DELETED
 } from "./types";
 import firebase from '@firebase/app';
 import '@firebase/database';
@@ -58,6 +58,21 @@ export const employeeSave = ({name, phone, shift, uid}) => {
             .then(() => {
                 console.log('saved!');
                 dispatch({type: EMPLOYEE_SAVE_SUCCESS});
+                Actions.employeeList({type: 'reset'});
+            });
+    };
+};
+
+export const employeeDelete = ({uid}) => {
+    console.log('employeeDelete');
+    const {currentUser} = firebase.auth();
+
+    return (dispatch) => {
+        firebase.database().ref(`/users/${currentUser.uid}/employees/${uid}`)
+            .remove()
+            .then(() => {
+                console.log('deleted!');
+                dispatch({type: EMPLOYEE_DELETED});
                 Actions.employeeList({type: 'reset'});
             });
     };

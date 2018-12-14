@@ -1,7 +1,8 @@
 import {
     EMPLOYEE_UPDATE,
     EMPLOYEE_CREATE,
-    EMPLOYEE_SAVE_SUCCESS
+    EMPLOYEE_SAVE_SUCCESS,
+    EMPLOYEE_DELETED
 } from "../actions/types";
 
 const INITIAL_STATE = {
@@ -22,6 +23,10 @@ export default (state = INITIAL_STATE, action) => {
             return INITIAL_STATE;
         case EMPLOYEE_SAVE_SUCCESS:
             console.log('AuthReducer.js EMPLOYEE_SAVE_SUCCESS')
+            // reset all attributes in the form
+            return INITIAL_STATE;
+        case EMPLOYEE_DELETED:
+            console.log('AuthReducer.js EMPLOYEE_DELETED')
             // reset all attributes in the form
             return INITIAL_STATE;
         default:
